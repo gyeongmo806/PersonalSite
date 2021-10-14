@@ -2,41 +2,36 @@ import React, { useEffect, useState } from "react";
 import { db, storage } from "../fbase";
 import { collection, getDocs } from "firebase/firestore";
 import { getDownloadURL, ref } from "@firebase/storage";
-const contents = [];
 
 const Home = () => {
-	var [contentList, setContentList] = useState([]);
-	const getContents = async () => {
-		try {
-			const querySnapshot = await getDocs(collection(db, "Contents"));
-			querySnapshot.forEach(async (content) => {
-				console.log(content.data());
-				const contentData = content.data();
-				const storageRef = ref(storage, contentData.ThumbNail);
-				const url = await getDownloadURL(storageRef);
-				console.log("hello");
-				contents.push(
-					<li key={contentData.id}>
-						<img
-							src={url}
-							alt="img"
-							width="200"
-							height="auto"
-						></img>
-						<a href={url}>{contentData.Title}</a>
-					</li>
-				);
-				setContentList(contents);
-			});
+	const [contentList, setContentList] = useState([]);
+	const contents = [];
 
-			console.log(contentList);
-		} catch (e) {
-			console.log(e);
-		}
+	const fetchGallery = async () => {
+		console.log("fetchGallery");
+		const snapShot = await getDocs(collection(db, "Contents"));
+		await snapShot.forEach((content) => {
+			contents.push(content);
+		});
+		const List = contents.map((content) => (
+			<li key={content.data().contentId}>
+				<img
+					src={content.data().ThumbNail}
+					alt="thumb"
+					width="200"
+					height="auto"
+				></img>
+				<p></p>
+				<span>{content.data().Title}</span>
+			</li>
+		));
+		setContentList(List);
 	};
+
 	useEffect(() => {
-		getContents();
-	});
+		console.log("useEffect");
+		fetchGallery();
+	}, []);
 
 	return (
 		<>

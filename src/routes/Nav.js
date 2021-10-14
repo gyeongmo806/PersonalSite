@@ -1,7 +1,17 @@
 import React from "react";
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "../fbase";
 
-function handleOnClick(event) {
+async function handleOnClick(event) {
 	event.preventDefault();
+	const docRef = await addDoc(collection(db, "Contents"), {
+		Date: Date(),
+		ThumbNail: "Japan",
+		Title: "Test",
+		Views: 1,
+		contentId: Math.random() * 100,
+	});
+	console.log("Document written with ID: ", docRef.id);
 }
 
 const Nav = () => {
