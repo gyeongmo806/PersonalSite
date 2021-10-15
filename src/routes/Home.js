@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { db, storage } from "../fbase";
-import { collection, getDocs } from "firebase/firestore";
-import { getDownloadURL, ref } from "@firebase/storage";
+import getContents from "../components/getContents";
 
 const Home = () => {
 	const [contentList, setContentList] = useState([]);
-	const contents = [];
 
-	const fetchGallery = async () => {
-		console.log("fetchGallery");
-		const snapShot = await getDocs(collection(db, "Contents"));
-		await snapShot.forEach((content) => {
-			contents.push(content);
-		});
+	const loadContents = async () => {
+		const { contents } = await getContents();
+		console.log(contents);
 		const List = contents.map((content) => (
 			<li key={content.data().contentId}>
 				<img
@@ -22,21 +16,24 @@ const Home = () => {
 					height="auto"
 				></img>
 				<p></p>
-				<span>{content.data().Title}</span>
+				<span>
+					<a href={content.data().ThumbNail}>
+						{content.data().Title}
+					</a>
+				</span>
 			</li>
 		));
 		setContentList(List);
 	};
-
 	useEffect(() => {
 		console.log("useEffect");
-		fetchGallery();
+		loadContents();
 	}, []);
 
 	return (
 		<>
 			<header>
-				<h1>Gyeongmo Personal Site</h1>
+				<h1>Personal Site</h1>
 			</header>
 			<div id="gallery">
 				<ul>{contentList}</ul>

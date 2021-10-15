@@ -1,20 +1,6 @@
-import React from "react";
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "../fbase";
+import React, { useEffect, useState } from "react";
 
-async function handleOnClick(event) {
-	event.preventDefault();
-	const docRef = await addDoc(collection(db, "Contents"), {
-		Date: Date(),
-		ThumbNail: "Japan",
-		Title: "Test",
-		Views: 1,
-		contentId: Math.random() * 100,
-	});
-	console.log("Document written with ID: ", docRef.id);
-}
-
-const Nav = () => {
+const Nav = ({ isLogin }) => {
 	return (
 		<>
 			<nav>
@@ -23,13 +9,9 @@ const Nav = () => {
 						<a href="/home">Home</a>
 					</li>
 					<li>
-						<a href="/auth">Auth</a>
+						<a href="/edit">Edit</a>
 					</li>
-					<li>
-						<a href="/edit" onClick={handleOnClick}>
-							Edit
-						</a>
-					</li>
+					<li>{isLogin ? "" : <a href="/auth">Auth</a>}</li>
 				</ul>
 			</nav>
 		</>

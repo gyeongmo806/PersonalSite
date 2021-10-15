@@ -1,6 +1,8 @@
 import { initializeApp } from "firebase/app";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 import { getFirestore } from "firebase/firestore";
+// import * as firebaseui from "firebaseui";
 
 // console.log(process.env.REACT_APP_FIREBASE_API_KEY);
 // const firebaseConfig = {
@@ -22,5 +24,5 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage(app, "gs://personalsite-df277.appspot.com/");
-
-export { db, storage };
+const auth = getAuth(app);
+export { db, storage, auth };
