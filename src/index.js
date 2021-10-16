@@ -4,6 +4,7 @@ import App from "../src/components/App";
 
 import "./editor.css";
 import "./mvp.css";
+import "./home.css";
 ReactDOM.render(
 	<React.StrictMode>
 		<App />

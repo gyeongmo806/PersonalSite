@@ -1,0 +1,17 @@
+.galleryContein {
+}
+
+.gallery {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	list-style: none;
+	width: 70%;
+	margin: auto;
+	padding: 0px;
+}
+
+.gallery li {
+	margin: 10px;
+	text-align: center;
+}

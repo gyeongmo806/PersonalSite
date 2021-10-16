@@ -6,7 +6,6 @@ const Home = () => {
 
 	const loadContents = async () => {
 		const { contents } = await getContents();
-		console.log(contents);
 		const List = contents.map((content) => (
 			<li key={content.data().contentId}>
 				<img
@@ -17,7 +16,7 @@ const Home = () => {
 				></img>
 				<p></p>
 				<span>
-					<a href={content.data().ThumbNail}>
+					<a href={`/content/${content.id}`}>
 						{content.data().Title}
 					</a>
 				</span>
@@ -33,10 +32,10 @@ const Home = () => {
 	return (
 		<>
 			<header>
-				<h1>Personal Site</h1>
+				<h1>Site</h1>
 			</header>
-			<div id="gallery">
-				<ul>{contentList}</ul>
+			<div className="galleryContein">
+				<ul className="gallery">{contentList}</ul>
 			</div>
 		</>
 	);
