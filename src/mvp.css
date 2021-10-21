@@ -55,10 +55,11 @@ body {
 	color: var(--color-text);
 	font-family: var(--font-family);
 	line-height: var(--line-height);
-	margin: 0;
+	margin: auto;
 	overflow-x: hidden;
 	padding: 0;
 	list-style: none;
+	width: 80%;
 }
 
 footer,

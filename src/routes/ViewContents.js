@@ -11,20 +11,26 @@ import ReactHtmlParser from "react-html-parser";
 
 const ViewContent = () => {
 	const [html, setHtml] = useState("");
+	const [title, setTitle] = useState("");
 	let { id } = useParams();
 
 	const getContent = async () => {
 		const snapShot = await getDoc(doc(db, "Contents", id));
 		console.log(snapShot.data());
 		const rawTohtml = draftToHtml(snapShot.data().desc);
-		console.log(rawTohtml);
+		setTitle(snapShot.data().Title);
 		setHtml(ReactHtmlParser(rawTohtml));
 	};
 	useEffect(() => {
 		getContent();
 	}, []);
 
-	return <>{html}</>;
+	return (
+		<>
+			<h2>{title}</h2>
+			{html}
+		</>
+	);
 };
 
 export default ViewContent;
