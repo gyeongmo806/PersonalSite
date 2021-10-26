@@ -1,5 +1,5 @@
 import { EditorState, convertToRaw } from "draft-js";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { addDoc, collection } from "@firebase/firestore";
 import { db, storage } from "../fbase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -7,30 +7,30 @@ import { Editor } from "react-draft-wysiwyg";
 import "../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import getContents from "../components/getContents";
 import { useHistory } from "react-router";
+import ImageList from "../components/ImageList";
 
 const MyEditor = () => {
 	const [editorState, setEditorState] = useState(EditorState.createEmpty());
 	const [title, setTitle] = useState("");
+	const [imageUrls, setImageUrls] = useState([]);
 	const history = useHistory();
-	let images = [];
+	let temp = [];
+	const imageUpload = async (file) => {
+		console.log("upload");
+		var name = file.name + Math.round(Math.random() * 100 + 1);
+
+		var storageRef = await ref(storage, "image/" + name);
+
+		await uploadBytes(storageRef, file);
+		var url = await getDownloadURL(storageRef);
+		temp.push(url);
+		setImageUrls(temp);
+		return { data: { link: url } };
+	};
 	const config = {
 		image: {
 			uploadEnabled: true,
-			uploadCallback: async (file) => {
-				// Create a root reference
-				console.log("upload");
-				var name = file.name + Math.round(Math.random() * 100 + 1);
-
-				var storageRef = await ref(storage, "image/" + name);
-
-				await uploadBytes(storageRef, file);
-				var url = await getDownloadURL(storageRef);
-				// Create a reference to 'mountains.jpg'
-				// var mountainsRef = storageRef.child("mountains.jpg");
-				images.push(url);
-				return { data: { link: url } };
-			},
-
+			uploadCallback: imageUpload,
 			inputAccept: "image/gif,image/jpeg,image/jpg,image/png,image/svg",
 			previewImage: true,
 			alt: { present: false, mandatory: false },
@@ -41,7 +41,6 @@ const MyEditor = () => {
 		setTitle(event.target.value);
 	};
 	const onEditorStateChange = (editorState) => {
-		console.log(editorState);
 		setEditorState(editorState);
 	};
 	const handleSubmit = async (e) => {
@@ -82,7 +81,7 @@ const MyEditor = () => {
 					locale: "ko",
 				}}
 			/>
-
+			<ImageList imageUrls={imageUrls}></ImageList>
 			<button onClick={handleSubmit}>Submit</button>
 		</>
 	);
