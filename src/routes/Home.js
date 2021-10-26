@@ -11,8 +11,8 @@ const Home = () => {
 				<img
 					src={content.data().ThumbNail}
 					alt="thumb"
-					width="200"
-					height="auto"
+					width="auto"
+					height="250"
 				></img>
 				<p></p>
 				<span>

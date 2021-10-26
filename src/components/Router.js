@@ -1,14 +1,9 @@
 import React from "react";
-import {
-	BrowserRouter as Router,
-	Switch,
-	Route,
-	useParams,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "../routes/Home";
 import Auth from "../routes/Auth";
 import Edit from "../routes/Edit";
-import Nav from "../routes/Nav";
+import Nav from "../components/Nav";
 import ViewContent from "../routes/ViewContents";
 const AppRouter = ({ isLogin, setIsLogin }) => {
 	return (

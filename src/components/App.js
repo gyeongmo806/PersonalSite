@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { onAuthStateChanged } from "@firebase/auth";
 import { auth } from "../fbase";
 import Router from "./Router";
-import Nav from "../routes/Nav";
 
 const App = () => {
 	const [init, setInit] = useState(false);

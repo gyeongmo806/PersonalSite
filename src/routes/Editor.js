@@ -1,5 +1,5 @@
 import { EditorState, convertToRaw } from "draft-js";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { addDoc, collection } from "@firebase/firestore";
 import { db, storage } from "../fbase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -13,6 +13,7 @@ const MyEditor = () => {
 	const [editorState, setEditorState] = useState(EditorState.createEmpty());
 	const [title, setTitle] = useState("");
 	const [imageUrls, setImageUrls] = useState([]);
+
 	const history = useHistory();
 	let temp = [];
 	const imageUpload = async (file) => {
@@ -25,6 +26,7 @@ const MyEditor = () => {
 		var url = await getDownloadURL(storageRef);
 		temp.push(url);
 		setImageUrls(temp);
+
 		return { data: { link: url } };
 	};
 	const config = {
@@ -57,13 +59,16 @@ const MyEditor = () => {
 	const createDoc = async (DocsSize) => {
 		const docRef = await addDoc(collection(db, "Contents"), {
 			contentId: DocsSize + 1,
-			ThumbNail: "https://source.unsplash.com/random",
+			ThumbNail: imageUrls[0]
+				? imageUrls[0]
+				: "https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg",
 			desc: convertToRaw(editorState.getCurrentContent()),
 			Date: Date(),
 			Title: title,
 		});
 		console.log("Document written with ID: ", docRef.id);
 	};
+
 	return (
 		<>
 			<input
@@ -81,7 +86,7 @@ const MyEditor = () => {
 					locale: "ko",
 				}}
 			/>
-			<ImageList imageUrls={imageUrls}></ImageList>
+			<ImageList imageUrls={imageUrls} />
 			<button onClick={handleSubmit}>Submit</button>
 		</>
 	);
