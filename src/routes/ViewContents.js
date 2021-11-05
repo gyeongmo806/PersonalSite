@@ -8,21 +8,21 @@ import draftToHtml from "draftjs-to-html";
 import { useParams } from "react-router-dom";
 import ReactHtmlParser from "react-html-parser";
 
-const ViewContent = () => {
+export default function ViewContent() {
 	const [html, setHtml] = useState("");
 	const [title, setTitle] = useState("");
 	let { id } = useParams();
 
-	const getContent = async () => {
-		const snapShot = await getDoc(doc(db, "Contents", id));
-		console.log(snapShot.data());
-		const rawTohtml = draftToHtml(snapShot.data().desc);
-		setTitle(snapShot.data().Title);
-		setHtml(ReactHtmlParser(rawTohtml));
-	};
 	useEffect(() => {
+		const getContent = async () => {
+			const snapShot = await getDoc(doc(db, "Contents", id));
+			console.log(snapShot.data());
+			const rawTohtml = draftToHtml(snapShot.data().desc);
+			setTitle(snapShot.data().Title);
+			setHtml(ReactHtmlParser(rawTohtml));
+		};
 		getContent();
-	}, []);
+	}, [id]);
 
 	return (
 		<>
@@ -30,6 +30,4 @@ const ViewContent = () => {
 			{html}
 		</>
 	);
-};
-
-export default ViewContent;
+}

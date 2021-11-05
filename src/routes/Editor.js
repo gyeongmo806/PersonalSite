@@ -1,5 +1,5 @@
 import { EditorState, convertToRaw } from "draft-js";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { addDoc, collection } from "@firebase/firestore";
 import { db, storage } from "../fbase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -7,7 +7,6 @@ import { Editor } from "react-draft-wysiwyg";
 import "../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import getContents from "../components/getContents";
 import { useHistory } from "react-router";
-import ImageList from "../components/ImageList";
 
 const MyEditor = () => {
 	const [editorState, setEditorState] = useState(EditorState.createEmpty());
@@ -18,14 +17,13 @@ const MyEditor = () => {
 	let temp = [];
 	const imageUpload = async (file) => {
 		console.log("upload");
+		console.log(file);
 		var name = file.name + Math.round(Math.random() * 100 + 1);
 
 		var storageRef = await ref(storage, "image/" + name);
 
 		await uploadBytes(storageRef, file);
 		var url = await getDownloadURL(storageRef);
-		temp.push(url);
-		setImageUrls(temp);
 
 		return { data: { link: url } };
 	};
@@ -44,6 +42,10 @@ const MyEditor = () => {
 	};
 	const onEditorStateChange = (editorState) => {
 		console.log(editorState);
+		if (editorState.getLastChangeType() === "insert-fragment") {
+			setImageUrls(temp);
+		}
+
 		setEditorState(editorState);
 	};
 	const handleSubmit = async (e) => {
@@ -69,6 +71,9 @@ const MyEditor = () => {
 		});
 		console.log("Document written with ID: ", docRef.id);
 	};
+	useEffect(() => {
+		document.getElementsByClassName("");
+	});
 
 	return (
 		<>
@@ -87,7 +92,6 @@ const MyEditor = () => {
 					locale: "ko",
 				}}
 			/>
-			<ImageList imageUrls={imageUrls} />
 			<button onClick={handleSubmit}>Submit</button>
 		</>
 	);
