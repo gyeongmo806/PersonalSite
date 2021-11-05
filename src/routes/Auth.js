@@ -2,9 +2,7 @@ import React from "react";
 import { useState } from "react/cjs/react.development";
 import { auth } from "../fbase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { useHistory } from "react-router";
 const Auth = ({ isLogin, setIsLogin }) => {
-	const history = useHistory();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const handleOnChange = (e) => {
@@ -19,7 +17,7 @@ const Auth = ({ isLogin, setIsLogin }) => {
 		signInWithEmailAndPassword(auth, email, password)
 			.then((userCredential) => {
 				// Signed in
-				const user = userCredential.user;
+				// const user = userCredential.user;
 				// ...
 				setIsLogin(true);
 				console.log(isLogin);

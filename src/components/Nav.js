@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 
 const Nav = ({ isLogin }) => {
 	return (
@@ -6,12 +7,12 @@ const Nav = ({ isLogin }) => {
 			<nav>
 				<ul>
 					<li>
-						<a href="/home">Home</a>
+						<Link to="/home">Home</Link>
 					</li>
 					<li>
-						<a href="/edit">Edit</a>
+						<Link to="/edit">Edit</Link>
 					</li>
-					<li>{isLogin ? "" : <a href="/auth">Auth</a>}</li>
+					<li>{isLogin ? "" : <Link to="/auth">Auth</Link>}</li>
 				</ul>
 			</nav>
 		</>

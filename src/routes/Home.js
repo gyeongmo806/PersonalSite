@@ -1,41 +1,16 @@
-import React, { useEffect, useState } from "react";
-import getContents from "../components/getContents";
+import React from "react";
+import ContentList from "../components/ContentList";
 
 const Home = () => {
-	const [contentList, setContentList] = useState([]);
-
-	const loadContents = async () => {
-		const { contents } = await getContents();
-		const List = contents.map((content) => (
-			<li key={content.data().contentId}>
-				<img
-					src={content.data().ThumbNail}
-					alt="thumb"
-					width="auto"
-					height="250"
-				></img>
-				<p></p>
-				<span>
-					<a href={`/content/${content.id}`}>
-						{content.data().Title}
-					</a>
-				</span>
-			</li>
-		));
-		setContentList(List);
-	};
-	useEffect(() => {
-		console.log("useEffect");
-		loadContents();
-	}, []);
-
 	return (
 		<>
 			<header>
 				<h1>Site</h1>
 			</header>
 			<div className="galleryContein">
-				<ul className="gallery">{contentList}</ul>
+				<ul className="gallery">
+					<ContentList />
+				</ul>
 			</div>
 		</>
 	);

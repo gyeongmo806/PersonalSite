@@ -8,8 +8,8 @@ import ViewContent from "../routes/ViewContents";
 const AppRouter = ({ isLogin, setIsLogin }) => {
 	return (
 		<>
-			<Nav isLogin={isLogin} />
 			<Router>
+				<Nav isLogin={isLogin} />
 				<Switch>
 					<Route path="/home">
 						<Home />

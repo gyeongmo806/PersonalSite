@@ -43,6 +43,7 @@ const MyEditor = () => {
 		setTitle(event.target.value);
 	};
 	const onEditorStateChange = (editorState) => {
+		console.log(editorState);
 		setEditorState(editorState);
 	};
 	const handleSubmit = async (e) => {

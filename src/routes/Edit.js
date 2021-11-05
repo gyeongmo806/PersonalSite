@@ -1,6 +1,4 @@
 import React from "react";
-import { db } from "../fbase";
-import { addDoc, collection, getDoc, getDocs } from "@firebase/firestore";
 import MyEditor from "./Editor";
 
 // const docRef = addDoc(, {
